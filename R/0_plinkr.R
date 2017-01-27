@@ -1,7 +1,7 @@
 #' A wrapper for plink
-#' 
+#'
 #' @importFrom stringr str_trim
-#' 
+#'
 #' @param	D	Same as plink --D
 #' @param	K	Same as plink --K
 #' @param	a1_allele	Same as plink --a1-allele
@@ -1217,18 +1217,18 @@ plinkr = function(
 	paramList$stdout = NULL
 	stderr = paramList$stderr
 	paramList$stderr = NULL
-	
+
 	paramVector = unlist(paramList)
 	paramVector = paramVector[!is.null(paramVector)]
 #	paramVector = stringr::str_trim(paramVector)
-	
-	
+
+
 	paramName = names(paramVector)
 	names(paramVector) = NULL
 	paramName = gsub("_", "-", paramName)
 	paramName = paste("--", paramName, sep="")
-	
-	
+
+
 	if("--one" %in% paramName) {
 		idx = which(paramName == "--one")
 		paramName[idx] = "--1"
@@ -1247,8 +1247,8 @@ plinkr = function(
 	paramNameWithValue[idxEven] = paramVector
 #	paramNameWithValue = ifelse(paramNameWithValue == "", "", paste0("'", paramNameWithValue, "'"))
 
-	
-	ret = system2('plink', paramNameWithValue, wait=wait, stdout=stdout, stderr=stderr)
+
+	ret = system2(collenv$.plink_exec, paramNameWithValue, wait=wait, stdout=stdout, stderr=stderr)
     if(ret != 0) {
 		warning("plink failed.")
 		invisible(FALSE)
