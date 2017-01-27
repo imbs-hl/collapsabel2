@@ -1,2 +1,4 @@
 readme.*
 tests
+^.*\.Rproj$
+^\.Rproj\.user$
