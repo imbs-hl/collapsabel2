@@ -305,16 +305,8 @@ isS4Class = function(obj, c) {
 #' @export
 gwasOut = function(pl_gwas) {
 	stem = gwasOutStem(pl_gwas)
-	if("assoc" %in% names(pl_gwas@opts)) {
-		if(binPhe(pl_gwas)) {
-			paste(stem, ".assoc", sep = '')
-		} else {
-			paste(stem, ".qassoc", sep = '')
-		}
-	} else if("linear" %in% names(pl_gwas@opts)) {
-		paste(stem, ".assoc.linear", sep = "")
-	} else if("logistic" %in% names(pl_gwas@opts)) {
-		paste(stem, ".assoc.logistic", sep = "")
+	if("linear" %in% names(pl_gwas@opts) || "logistic" %in% names(pl_gwas@opts)) {
+		paste(stem, ".", pl_gwas@opts$pheno_name, ".glm.linear", sep = "")
 	} else {
 		stop("no modeling option specified?")
 	}
@@ -330,7 +322,7 @@ gwasOut = function(pl_gwas) {
 #' @author Kaiyin Zhong, Fan Liu
 #' @export
 setOptModel = function(pl_gwas, mod = "linear") {
-	poss_mods = c("linear", "logistic", "assoc")
+	poss_mods = c("linear", "logistic")
 	stopifnot(isS4Class(pl_gwas, "PlGwasC"))
 	stopifnot((length(mod) == 1) && (mod %in% poss_mods))
 	# nullify all modes that are not selected

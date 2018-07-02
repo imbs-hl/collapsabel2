@@ -112,7 +112,7 @@ setMethod("plInfo",
 			
 			# frq file
 			# TODO: autogen frq files using plinkr
-			plink_frq = paste(bedstem, ".frq", sep="")
+			plink_frq = paste(bedstem, ".afreq", sep="")
 			
 			# return a PlInfoC obj
 			pl_info@main_dir = main_dir
@@ -201,7 +201,8 @@ setup = function(pl_info) {
 					out = pl_info@plink_stem, 
 					wait = TRUE)
 		}
-		frq = read.table(pl_info@plink_frq, header = TRUE, stringsAsFactors = FALSE)
+		frq = read.table(pl_info@plink_frq, header = FALSE, stringsAsFactors = FALSE)
+		frq = setNames(frq, c("CHR", "SNP", "REF", "ALT", "MAF", "NMISS"))
 		bim = readBim(pl_info@plink_trio["bim"])
 		fam = readFam(pl_info@plink_trio["fam"])
 		fam = setNames(fam, c("FID", "IID", "PID", "MID", "SEX", "PHE"))

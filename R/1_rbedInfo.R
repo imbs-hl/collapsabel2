@@ -461,7 +461,8 @@ gcdhReport = function(run_res) {
 	stopifnot(all(collenv$.linear_header_default %in% names(run_res)))
 	# minimal p and number of tests
 	gcdh_p = biganalytics::apply(run_res$P, 1, function(i) {
-				min(na.omit(i))
+				x = min(na.omit(i))
+				x
 			})
 	gcdh_ntests = biganalytics::apply(run_res$P, 1, function(i) {length(na.omit(i))})
 	pl_gwas = setupRbed(run_res$pl_gwas)
@@ -469,9 +470,9 @@ gcdhReport = function(run_res) {
 	# chr1, bp1, snp1, maf1, nmiss1, beta1, stat1, p1
 	basic_info1 = setNames(cbind(run_res$chr_bp, maf), c("SNP1", "CHR1", "BP1", "MAF1"))
 	stats1 = data.frame(
-			NMISS1 = run_res$NMISS[, 1],
+			NMISS1 = run_res$OBS_CT[, 1],
 			BETA1 = run_res$BETA[, 1],
-			STAT1 = run_res$STAT[, 1],
+			STAT1 = run_res$T_STAT[, 1],
 			P1 = run_res$P[, 1]
 	)
 	# chr2, bp2, snp2, maf2, nmiss2, beta2, stat2, p2
@@ -485,10 +486,10 @@ gcdhReport = function(run_res) {
 			P2     = stats1$P1[second_snp_indices]
 	)
 	# gcdh_nmiss, gcdh_beta, gcdh_stat, gcdh_p
-	idx = cbind(1:nrow(run_res$NMISS), minimal_p_indices)
-	gcdh_nmiss = run_res$NMISS[,][idx]
+	idx = cbind(1:nrow(run_res$OBS_CT), minimal_p_indices)
+	gcdh_nmiss = run_res$OBS_CT[,][idx]
 	gcdh_beta = run_res$BETA[,][idx]
-	gcdh_stat = run_res$STAT[,][idx]
+	gcdh_stat = run_res$T_STAT[,][idx]
 	gcdh_p1 = run_res$P[,][idx]
 	stopifnot(all(gcdh_p1 == gcdh_p))
 	# combined all stats in one data.frame
