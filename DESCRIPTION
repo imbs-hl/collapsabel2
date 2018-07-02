@@ -30,4 +30,4 @@ BugReports: https://bitbucket.org/kindlychung/collapsabel2/issues
 Suggests:
     testthat
 SystemRequirements: PLINK2, Java (>= 8.0), mysql
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
